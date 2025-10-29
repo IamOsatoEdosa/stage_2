@@ -37,21 +37,30 @@ Key features:
 ```bash
 git clone <my-repo-url>
 cd bluegreen
+```
 
-### 2. Render nginx config 
+### 2. Render nginx config
+```bash
 chmod +x render-nginx.sh
 ./render-nginx.sh
+```
 
-### 3. Start the Stack 
+### 3. Start the Stack
+```bash
 docker compose up -d
-
+```
 
 ### 4. Verify Baseline
+```bash
 curl -i http://localhost:8080/version
+```
 
 ### 5. Trigger chaos
+```bash
 curl -X POST http://localhost:8081/chaos/start?mode=error
+```
 
 ### 6. Verify failover
+```bash
 curl -i http://localhost:8080/version
-
+```
