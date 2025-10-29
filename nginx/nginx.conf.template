@@ -1,0 +1,26 @@
+# Only the server block lives here — no upstream!
+
+server {
+    listen 80;
+
+    # Tight timeouts so failures are detected quickly
+    proxy_connect_timeout 1s;
+    proxy_send_timeout 5s;
+    proxy_read_timeout 5s;
+
+    # Retry policy: retry on error, timeout, or 5xx
+    proxy_next_upstream error timeout http_500 http_502 http_503 http_504;
+    proxy_next_upstream_tries 2;
+
+    location / {
+        proxy_pass http://backend;
+
+        # Forward client headers
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # Do not strip upstream headers (X-App-Pool, X-Release-Id)
+    }
+}
