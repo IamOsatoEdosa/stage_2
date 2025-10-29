@@ -38,14 +38,20 @@ Key features:
 git clone <my-repo-url>
 cd bluegreen
 
+### 2. Render nginx config 
 chmod +x render-nginx.sh
 ./render-nginx.sh
 
+### 3. Start the Stack 
 docker compose up -d
 
-Verify baseline: curl -i http://localhost:8080/version
 
-Trigger chaos: curl -X POST http://localhost:8081/chaos/start?mode=error
+### 4. Verify Baseline
+curl -i http://localhost:8080/version
 
-Verify failover: curl -i http://localhost:8080/version
+### 5. Trigger chaos
+curl -X POST http://localhost:8081/chaos/start?mode=error
+
+### 6. Verify failover
+curl -i http://localhost:8080/version
 
